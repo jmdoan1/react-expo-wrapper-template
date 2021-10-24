@@ -3,9 +3,9 @@ import './App.css';
 import { reactPostToRNWebView } from '@universalnamespace/common';
 
 function App() {
-  const [message, setMessage] = React.useState("1");
-  const [message2, setMessage2] = React.useState("2");
-  const [message3, setMessage3] = React.useState("3");
+  const [payload, setPayload] = React.useState("none");
+  const [payloadType, setPayloadType] = React.useState("none");
+  const [payloadTime, setPayloadTime] = React.useState("none");
 
   const messageResolvers = new Map<string, (value: any) => void>();
 
@@ -15,8 +15,8 @@ function App() {
       (event: MessageEvent) => {
         if (event && event.data) {
           const eventData = JSON.parse(event.data);
-          setMessage(JSON.stringify(eventData.payload));
-          setMessage2(JSON.parse(event.data).type);
+          setPayload(JSON.stringify(eventData.payload));
+          setPayloadType(JSON.parse(event.data).type);
 
           if (eventData && eventData.type) {
             const resolve = messageResolvers.get(eventData.type);
@@ -27,7 +27,7 @@ function App() {
             }
 
             resolve(eventData.payload);
-            setMessage3(eventData.payload.time);
+            setPayloadTime(eventData.payload.time);
           }
         }
       },
@@ -49,9 +49,12 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <p>{message}</p>
-        <p>{message2}</p>
-        <p>{message3}</p>
+        <p>{"Received payload:"}</p>
+        <p>{payload}</p>
+        <p>{"Payload type:"}</p>
+        <p>{payloadType}</p>
+        <p>{"Payload time:"}</p>
+        <p>{payloadTime}</p>
         <button onClick={() => reactPostToRNWebView(window, new Date())}>test</button>
       </header>
     </div>

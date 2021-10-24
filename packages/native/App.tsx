@@ -1,16 +1,18 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet } from 'react-native';
+import { SafeAreaView, StyleSheet } from 'react-native';
 import WebviewScreen from './src/screens/WebviewScreen/WebviewScreen';
 import Constants from "expo-constants";
 
 export default function App() {
   const { manifest } = Constants;
-  const uri = `http://${manifest?.debuggerHost?.split(':').shift()}:3000`;
+  const webViewUri = `http://${manifest?.debuggerHost?.split(':').shift()}:3000`;
+
   return (
-    // <View style={styles.container}>
-    <WebviewScreen uri={uri} />
-    // </View>
+    <SafeAreaView style={{ flex: 1 }}>
+      <WebviewScreen uri={webViewUri} />
+      <StatusBar />
+    </SafeAreaView>
   );
 }
 
