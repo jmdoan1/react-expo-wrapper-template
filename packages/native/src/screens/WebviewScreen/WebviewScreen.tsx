@@ -1,16 +1,20 @@
 import React from "react";
 import { ActivityIndicator, Button, SafeAreaView, StyleSheet, View } from 'react-native';
 import WebView from "react-native-webview";
-import { testCommonValue, webViewURL } from '@universalnamespace/common';
+import { nativePostToReactWebsite } from '@universalnamespace/common';
 
-export default function WebviewScreen() {
+interface WebViewScreenProps {
+    uri: string;
+}
+
+export default function WebviewScreen(props: WebViewScreenProps) {
+    const { uri } = props;
 
     const webRef = React.useRef<WebView>(null);
 
-    const doThing = React.useCallback(() => {
-        webRef.current?.postMessage(JSON.stringify({ type: 'hello', payload: { thing: 'ok', time: new Date() } }));
+    const postTestData = React.useCallback(() => {
+        webRef.current && nativePostToReactWebsite(webRef.current, { type: 'hello', payload: { thing: 'ok', time: new Date() } });
     }, [webRef.current]);
-
 
     return (
         <>
@@ -18,7 +22,7 @@ export default function WebviewScreen() {
                 ref={webRef}
                 style={styles.container}
                 originWhitelist={['*']}
-                source={{ uri: webViewURL }}
+                source={{ uri: uri }}
                 renderLoading={() => <ActivityIndicator color='#009b88' size='large' />}
                 startInLoadingState={true}
                 onMessage={(event) => {
@@ -26,7 +30,7 @@ export default function WebviewScreen() {
                     console.log('String message from the WebView', data);
                 }}
             />
-            <Button onPress={doThing} title={testCommonValue} />
+            <Button onPress={postTestData} title="Send test data" />
         </>
     );
 }

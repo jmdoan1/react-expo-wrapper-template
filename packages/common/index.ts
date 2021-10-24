@@ -1,6 +1,6 @@
-import { testCommonValue, webViewURL } from './src/util/testValues';
+import { reactPostToRNWebView, nativePostToReactWebsite } from './src/util/WebviewCommunication';
 
 export {
-    testCommonValue,
-    webViewURL,
+    reactPostToRNWebView,
+    nativePostToReactWebsite,
 }

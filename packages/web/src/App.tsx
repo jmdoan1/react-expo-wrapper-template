@@ -1,8 +1,6 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
-import { postToWebView } from './util/WebviewComms';
-import { testCommonValue } from '@universalnamespace/common';
+import { reactPostToRNWebView } from '@universalnamespace/common';
 
 function App() {
   const [message, setMessage] = React.useState("1");
@@ -51,22 +49,10 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          {testCommonValue}
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
         <p>{message}</p>
         <p>{message2}</p>
         <p>{message3}</p>
-        <button onClick={() => postToWebView(window, new Date())}>test</button>
+        <button onClick={() => reactPostToRNWebView(window, new Date())}>test</button>
       </header>
     </div>
   );
