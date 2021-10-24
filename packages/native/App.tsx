@@ -6,6 +6,12 @@ import Constants from "expo-constants";
 
 export default function App() {
   const { manifest } = Constants;
+
+  /**
+ * Detects the current IP host and generates a uri to to the locally hosted react website.
+ * 
+ * Only works when running expo on LAN
+ */
   const webViewUri = `http://${manifest?.debuggerHost?.split(':').shift()}:3000`;
 
   return (
