@@ -1,6 +1,7 @@
 import React from 'react';
 import './App.css';
 import { reactPostToRNWebView } from '@universalnamespace/common';
+import { SessionProvider } from '@universalnamespace/common/src/util/Context';
 
 function App() {
   const [payload, setPayload] = React.useState("none");
@@ -47,17 +48,19 @@ function App() {
   something();
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <p>{"Received payload:"}</p>
-        <p>{payload}</p>
-        <p>{"Payload type:"}</p>
-        <p>{payloadType}</p>
-        <p>{"Payload time:"}</p>
-        <p>{payloadTime}</p>
-        <button onClick={() => reactPostToRNWebView(window, new Date())}>test</button>
-      </header>
-    </div>
+    <SessionProvider>
+      <div className="App">
+        <header className="App-header">
+          <p>{"Received payload:"}</p>
+          <p>{payload}</p>
+          <p>{"Payload type:"}</p>
+          <p>{payloadType}</p>
+          <p>{"Payload time:"}</p>
+          <p>{payloadTime}</p>
+          <button onClick={() => reactPostToRNWebView(window, new Date())}>test</button>
+        </header>
+      </div>
+    </SessionProvider>
   );
 }
 
