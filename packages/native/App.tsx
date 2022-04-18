@@ -1,27 +1,28 @@
 import { StatusBar } from 'expo-status-bar';
-import React from 'react';
+import React, { useReducer } from 'react';
 import { SafeAreaView, StyleSheet } from 'react-native';
 import WebviewScreen from './src/screens/WebviewScreen/WebviewScreen';
 import Constants from "expo-constants";
-import { SessionProvider } from '@universalnamespace/common/src/util/Context';
+import { CommonContext } from '@universalnamespace/common';
 
 export default function App() {
-  const { manifest } = Constants;
+  const [state, dispatch] = useReducer(CommonContext.mainReducer, CommonContext.defaultSessionContext);
 
   /**
    * Detects the current IP host and generates a uri to to the locally hosted react website.
    * 
-   * Only works when running expo on LAN
+   * ONLY WORKS WHEN RUNNING EXPO ON LAN
    */
+  const { manifest } = Constants;
   const webViewUri = `http://${manifest?.debuggerHost?.split(':').shift()}:3000`;
 
   return (
-    <SessionProvider>
+    <CommonContext.MainContext.Provider value={{ state, dispatch }}>
       <SafeAreaView style={{ flex: 1 }}>
         <WebviewScreen uri={webViewUri} />
         <StatusBar />
       </SafeAreaView>
-    </SessionProvider>
+    </CommonContext.MainContext.Provider>
   );
 }
 

@@ -1,12 +1,14 @@
-import React from 'react';
+import React, { useReducer } from 'react';
 import './App.css';
-import { reactPostToRNWebView } from '@universalnamespace/common';
-import { SessionProvider } from '@universalnamespace/common/src/util/Context';
+import { reactPostToRNWebView, CommonContext } from '@universalnamespace/common';
 
 function App() {
   const [payload, setPayload] = React.useState("none");
   const [payloadType, setPayloadType] = React.useState("none");
   const [payloadTime, setPayloadTime] = React.useState("none");
+
+
+  const [state, dispatch] = useReducer(CommonContext.mainReducer, CommonContext.defaultSessionContext);
 
   const messageResolvers = new Map<string, (value: any) => void>();
 
@@ -48,7 +50,7 @@ function App() {
   something();
 
   return (
-    <SessionProvider>
+    <CommonContext.MainContext.Provider value={{ state, dispatch }}>
       <div className="App">
         <header className="App-header">
           <p>{"Received payload:"}</p>
@@ -60,7 +62,7 @@ function App() {
           <button onClick={() => reactPostToRNWebView(window, new Date())}>test</button>
         </header>
       </div>
-    </SessionProvider>
+    </CommonContext.MainContext.Provider>
   );
 }
 
